@@ -4,7 +4,8 @@
   "info": {
     "singularName": "highlight",
     "pluralName": "highlights",
-    "displayName": "Highlight"
+    "displayName": "Highlight",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -13,6 +14,21 @@
   "attributes": {
     "content": {
       "type": "text"
+    },
+    "book": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::book.book",
+      "inversedBy": "highlights"
+    },
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "highlights"
+    },
+    "location": {
+      "type": "string"
     }
   }
 }
