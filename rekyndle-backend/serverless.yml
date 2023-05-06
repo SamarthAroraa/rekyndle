@@ -20,8 +20,12 @@ provider:
             - dynamodb:DeleteItem
           Resource:
             - Fn::GetAtt: [ UsersTable, Arn ]
+            - Fn::GetAtt: [ HighlightsTable, Arn ]
+            
   environment:
     USERS_TABLE: ${self:custom.tableName}
+    HIGHLIGHTS_TABLE: ${self:custom.tableName}-highlights
+    JWT_SECRET: 8b5fc387a29c23a8f26ac55c2c0bb37f
 
 functions:
   api:
@@ -42,3 +46,20 @@ resources:
             KeyType: HASH
         BillingMode: PAY_PER_REQUEST
         TableName: ${self:custom.tableName}
+
+    HighlightsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: highlightId
+            AttributeType: S
+          - AttributeName: userId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: userId
+            KeyType: HASH
+          - AttributeName: highlightId
+            KeyType: RANGE
+        BillingMode: PAY_PER_REQUEST
+        TableName: ${self:custom.tableName}-highlights
+        
